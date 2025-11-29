@@ -1,0 +1,31 @@
+# Entorno virtual
+venv/
+.env/
+.venv/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de logs
+*.log
+
+# Reportes temporales
+htmlcov/
+coverage.xml
+pytest_cache/
+
+# Selenium: Drivers descargados por webdriver-manager
+*.exe
+*.zip
+
+# Archivos de OS
+.DS_Store
+Thumbs.db
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.iml
