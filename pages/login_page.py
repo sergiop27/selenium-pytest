@@ -1,27 +1,24 @@
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
+from pages.base_page import BasePage
 
-class BasePage:
-    URL = "https://www.saucedemo.com/"
+class LoginPage(BasePage):
+    # --- Localizadores ---
+    USERNAME_FIELD = (By.ID, "user-name")
+    PASSWORD_FIELD = (By.ID, "password")
+    LOGIN_BUTTON = (By.ID, "login-button")
     
-    def __init__(self, driver: WebDriver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 10) 
+    def __init__(self, driver):
+        super().__init__(driver)
+
+    def login(self, username, password):
+        """
+        Ejecuta la secuencia completa de inicio de sesión.
+        """
+        self.go_to_url(self.URL)
+
+        # Escribir nombre de usuario y clave
+        self._find_element(self.USERNAME_FIELD).send_keys(username)
+        self._find_element(self.PASSWORD_FIELD).send_keys(password)
         
-    def go_to_url(self, url: str):
-        self.driver.get(url)
-
-    def quit_driver(self):
-        self.driver.quit()
-
-    def _find_element(self, by: By, value: str):
-        # Espera hasta que el elemento sea visible en la pagina
-        return self.wait.until(
-            EC.visibility_of_element_located((by, value))
-        )
-
-    def _get_element_text(self, by: By, value: str) -> str:
-        element = self._find_element(by, value)
-        return element.text
+        # Hacer clic en el botón de login
+        self._find_element(self.LOGIN_BUTTON).click()

@@ -16,7 +16,7 @@ def test_login(driver_setup):
     login_page = LoginPage(driver)
     login_page.login("standard_user","secret_sauce")
 
-    titulo_productos = login_page._get_element_text(By.XPATH, "//span[text()='Products']")
+    titulo_productos = login_page._get_element_text((By.XPATH, "//span[text()='Products']"))
         
     assert titulo_productos == "Products", "El título de la página no es 'Products'. Login fallido."
     print("Login exitoso - La validación de título correcta")
