@@ -8,7 +8,7 @@ class BasePage:
     
     def __init__(self, driver: WebDriver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 10) 
+        self.wait = WebDriverWait(driver, 10)
         
     def go_to_url(self, url: str):
         self.driver.get(url)
@@ -16,12 +16,11 @@ class BasePage:
     def quit_driver(self):
         self.driver.quit()
 
-    def _find_element(self, by: By, value: str):
-        # Espera hasta que el elemento sea visible en la pagina
+    def _find_element(self, locator: tuple[str, str]):
         return self.wait.until(
-            EC.visibility_of_element_located((by, value))
+            EC.visibility_of_element_located(locator)
         )
 
-    def _get_element_text(self, by: By, value: str) -> str:
-        element = self._find_element(by, value)
+    def _get_element_text(self, locator: tuple[str, str]) -> str:
+        element = self._find_element(locator)
         return element.text

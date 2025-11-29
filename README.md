@@ -35,6 +35,7 @@ selenium-pytest/
 ├── requirements.txt         # Dependencias del proyecto (pytest, selenium, etc.)
 ├── .gitignore               # Ignora archivos innecesarios (venv, __pycache__, etc.)
 └── README.md                # Bienvenida y guía del curso
+```
 
 ---
 
@@ -42,18 +43,22 @@ selenium-pytest/
 1. Clonar el repositorio:
    ```bash
    git clone https://github.com/TU_USUARIO/selenium-pytest.git
+   ```
 
 2. Navegar al proyecto:
    ```bash
    cd selenium-pytest
+   ```
 
 3. Instalar dependencias:
    ```bash
-   pip install -r requirements.txt
+   py -m pip install -r requirements.txt
+   ```
 
 4. Ejecutar los tests con Pytest:
    ```bash
-   pytest -v
+   py -m pytest -v
+   ```
 
 ---
 
