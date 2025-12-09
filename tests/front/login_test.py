@@ -1,23 +1,31 @@
-from selenium.webdriver.common.by import By
+from selenium.webdriver.edge.options import Options as EdgeOptions
+from pages.products_page import ProductsPage
 from pages.login_page import LoginPage
 from selenium import webdriver
 import pytest
 
 @pytest.fixture(scope="function")
 def driver_setup():
-    driver = webdriver.Chrome()
+    edge_options = EdgeOptions()
+    edge_options.add_argument("--start-maximized")
+    edge_options.add_argument("--disable-extensions")
+    edge_options.add_argument("--disable-notifications")
+    edge_options.add_argument("--disable-popup-blocking")
+    edge_options.set_capability("acceptInsecureCerts", True)
+    driver = webdriver.Edge(options=edge_options)
     driver.implicitly_wait(5) 
     yield driver
     
     driver.quit()
 
+@pytest.mark.front
 def test_login_exitoso(driver_setup):
     driver = driver_setup
     login_page = LoginPage(driver)
     login_page.login("standard_user", "secret_sauce")
-
-    titulo_productos = login_page._get_element_text((By.XPATH, "//span[text()='Products']"))
-    assert titulo_productos == "Products"
+    
+    products_page = ProductsPage(driver)
+    assert products_page.is_loaded(), "La página de productos no se cargó correctamente"
 
 @pytest.mark.parametrize(
     "username, password, expected_error",
@@ -30,6 +38,7 @@ def test_login_exitoso(driver_setup):
     ],
 )
 
+@pytest.mark.front
 def test_login_negativo(driver_setup, username, password, expected_error):
     driver = driver_setup
     login_page = LoginPage(driver)
@@ -38,6 +47,7 @@ def test_login_negativo(driver_setup, username, password, expected_error):
     error_text = login_page.get_error_message()
     assert expected_error in error_text
     
+@pytest.mark.front
 def test_login_usuario_bloqueado(driver_setup):
     driver = driver_setup
     login_page = LoginPage(driver)
