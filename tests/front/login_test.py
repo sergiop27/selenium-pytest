@@ -1,43 +1,27 @@
-from selenium.webdriver.edge.options import Options as EdgeOptions
+from data.login_data_reader import load_login_data
 from pages.products_page import ProductsPage
 from pages.login_page import LoginPage
-from selenium import webdriver
 import pytest
 
-@pytest.fixture(scope="function")
-def driver_setup():
-    edge_options = EdgeOptions()
-    edge_options.add_argument("--start-maximized")
-    edge_options.add_argument("--disable-extensions")
-    edge_options.add_argument("--disable-notifications")
-    edge_options.add_argument("--disable-popup-blocking")
-    edge_options.set_capability("acceptInsecureCerts", True)
-    driver = webdriver.Edge(options=edge_options)
-    driver.implicitly_wait(5) 
-    yield driver
-    
-    driver.quit()
+login_data = load_login_data()
 
 @pytest.mark.front
 def test_login_exitoso(driver_setup):
     driver = driver_setup
     login_page = LoginPage(driver)
-    login_page.login("standard_user", "secret_sauce")
+    valid_user = login_data["valid_user"]
+    login_page.login(valid_user["username"], valid_user["password"])
     
     products_page = ProductsPage(driver)
     assert products_page.is_loaded(), "La página de productos no se cargó correctamente"
 
 @pytest.mark.parametrize(
-    "username, password, expected_error",
+    "username,password,expected_error",
     [
-        ("", "secret_sauce", "Epic sadface: Username is required"),
-        ("standard_user", "", "Epic sadface: Password is required"),
-        ("", "", "Username is required"),
-        ("usuario_invalido", "secret_sauce", "Epic sadface: Username and password do not match"),
-        ("standard_user", "clave_invalida", "Epic sadface: Username and password do not match"),
+        (case["username"], case["password"], case["error"])
+        for case in login_data["invalid_users"]
     ],
 )
-
 @pytest.mark.front
 def test_login_negativo(driver_setup, username, password, expected_error):
     driver = driver_setup
@@ -51,7 +35,8 @@ def test_login_negativo(driver_setup, username, password, expected_error):
 def test_login_usuario_bloqueado(driver_setup):
     driver = driver_setup
     login_page = LoginPage(driver)
-    login_page.login("locked_out_user", "secret_sauce")
+    locked = login_data["locked_user"]
+    login_page.login(locked["username"], locked["password"])
 
     error_text = login_page.get_error_message()
     assert "Sorry, this user has been locked out." in error_text

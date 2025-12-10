@@ -1,31 +1,41 @@
-# Entorno virtual
-venv/
-.env/
-.venv/
-
-# Archivos de Python
+# ==========================================
+# 🐍  Archivos compilados / cache
+# ==========================================
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.pdb
+.ipynb_checkpoints/
 
-# Archivos de logs
-*.log
+# ==========================================
+# 🧪 Pytest
+# ==========================================
+.pytest_cache/
+reports/
+report.html
+*.html
 
-# Reportes temporales
-htmlcov/
-coverage.xml
-pytest_cache/
+# No subir capturas de pantallas generadas por los tests
+screenshots/
 
-# Selenium: Drivers descargados por webdriver-manager
-*.exe
+# ==========================================
+# 🖥️ Selenium WebDrivers
+# ==========================================
+drivers/
+msedgedriver.exe
+chromedriver.exe
 *.zip
 
-# Archivos de OS
-.DS_Store
-Thumbs.db
+# ==========================================
+# 🌐 Archivos temporales o de logs
+# ==========================================
+*.log
+*.tmp
 
-# Archivos de IDE
+# ==========================================
+# 🛠️ Configuración de IDEs
+# ==========================================
 .vscode/
 .idea/
 *.iml

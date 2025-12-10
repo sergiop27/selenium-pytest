@@ -2,27 +2,24 @@
 
 ¡Bienvenido al repositorio oficial del **Curso Introductorio de Testing Automatizado con Python**!  
 
-Aquí vas a aprender paso a paso cómo construir un **framework de pruebas desde cero** usando **Selenium WebDriver + Pytest**, 
-comenzando con un **primer test funcional de Front** y luego evolucionando el proyecto con **buenas prácticas**, 
-**patrones simples** y, más adelante, **pruebas de API**.
-
-En esta **primera etapa** vas a encontrar un **script sencillo de prueba** que nos servirá como base inicial.  
-En los **próximos commits**, iremos haciendo crecer el proyecto y también este **README**, incorporando más explicaciones y 
-funcionalidades.
+En este proyecto vas a aprender a construir un framework de pruebas combinando:
+* Selenium WebDriver + Pytest para pruebas de Front/UI
+* Requests + Pytest para pruebas de API/Backend
+* Page Object Model (POM)
+* Datos parametrizados en JSON
+* Reportes HTML
+* Evidencias automáticas (screenshots)
 
 ---
 
 ### 🚀 ¿Qué contiene este proyecto?
 
-- **Lenguaje:** Python 3.x  
-- **Framework de pruebas:** Pytest  
-- **Automatización UI:** Selenium WebDriver  
-- **Primer caso:** Login básico sobre una página pública de ejemplo (definida en el primer test)
-
-Más adelante sumaremos:
-
-- Pruebas de **API** usando `requests` + Pytest  
-- Mejores prácticas para organizar UI + API en el mismo repo
+✔ Pruebas automatizadas de Frontend con Selenium
+✔ Pruebas de Backend / API con Requests
+✔ Uso de fixtures, POM, marcadores y parametrización
+✔ Generación automática de screenshots en cada test
+✔ Generación de reporte HTML con detalles de ejecución
+✔ Buenas prácticas de estructura, claridad y escalabilidad
 
 ---
 
@@ -30,11 +27,35 @@ Más adelante sumaremos:
 
 ```text
 selenium-pytest/
+├── api/
+│   └── api_client.py
+│
+├── data/
+│   └── data_login.json            # Datos parametrizados
+│
+├── pages/
+│   ├── base_page.py
+│   ├── login_page.py
+│   ├── products_page.py
+│   ├── cart_page.py
+│   └── checkout_page.py
+│
 ├── tests/
-│   └── test_login.py     # Primer test básico de interfaz
-├── requirements.txt         # Dependencias del proyecto (pytest, selenium, etc.)
-├── .gitignore               # Ignora archivos innecesarios (venv, __pycache__, etc.)
-└── README.md                # Bienvenida y guía del curso
+│   ├── front/
+│   │   ├── login_test.py
+│   │   ├── products_test.py
+│   │   ├── checkout_test.py
+│   │   └── conftest.py            # driver_setup + screenshots
+│   │
+│   └── back/
+│       └── getApi_test.py
+│
+├── screenshots/                   # Evidencias automáticas (ignorada en .gitignore)
+├── reports/                       # Reportes HTML (ignorados)
+│
+├── requirements.txt
+├── .gitignore
+└── README.md
 ```
 
 ---
@@ -58,6 +79,20 @@ selenium-pytest/
 4. Ejecutar los tests con Pytest:
    ```bash
    py -m pytest -v
+   ```
+
+## 🎯 Ejecutar por separado: Frontend vs Backend
+
+Gracias a los markers (@pytest.mark.front y @pytest.mark.back) podés ejecutar por tipo de test.
+
+5. Ejecutar solo pruebas Front/UI:
+   ```bash
+   py -m pytest -m front -v
+   ```
+
+6. Ejecutar solo pruebas Back/API
+   ```bash
+   py -m pytest -m back -v
    ```
 
 ---

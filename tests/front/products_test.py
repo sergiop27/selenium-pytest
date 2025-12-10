@@ -1,22 +1,6 @@
-from selenium.webdriver.edge.options import Options as EdgeOptions
 from pages.products_page import ProductsPage
 from pages.login_page import LoginPage
-from selenium import webdriver
 import pytest
-
-@pytest.fixture(scope="function")
-def driver_setup():
-    edge_options = EdgeOptions()
-    edge_options.add_argument("--start-maximized")
-    edge_options.add_argument("--disable-extensions")
-    edge_options.add_argument("--disable-notifications")
-    edge_options.add_argument("--disable-popup-blocking")
-    edge_options.set_capability("acceptInsecureCerts", True)
-    driver = webdriver.Edge(options=edge_options)
-    driver.implicitly_wait(5) 
-    yield driver
-    
-    driver.quit()
 
 @pytest.mark.front
 def test_agregar_producto_al_carrito_actualiza_badge(driver_setup):
